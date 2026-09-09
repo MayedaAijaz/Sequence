@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sequence</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div id="lobby-screen" class="screen">
+  <div class="card-panel">
+    <h1>🎯 Sequence</h1>
+
+    <div id="create-join">
+      <label>Your name</label>
+      <input id="name-input" type="text" placeholder="Enter your name" maxlength="20">
+
+      <div class="lobby-columns">
+        <div class="lobby-col">
+          <h3>Create a room</h3>
+          <label>Number of players</label>
+          <select id="num-players-select">
+            <option value="2">2 players</option>
+            <option value="3">3 players</option>
+            <option value="4">4 players (2v2 teams)</option>
+          </select>
+          <button id="create-room-btn">Create Room</button>
+        </div>
+        <div class="lobby-col">
+          <h3>Join a room</h3>
+          <label>Room code</label>
+          <input id="room-code-input" type="text" placeholder="ABCDE" maxlength="6" style="text-transform:uppercase">
+          <button id="join-room-btn">Join Room</button>
+        </div>
+      </div>
+    </div>
+
+    <p id="error-box" class="error-box" style="display:none;"></p>
+  </div>
+</div>
+
+<div id="waiting-screen" class="screen" style="display:none;">
+  <div class="card-panel">
+    <h2>Room <span id="room-code-display" class="room-code-tag"></span></h2>
+    <p>Share this code with friends so they can join.</p>
+    <div id="players-waiting-list"></div>
+    <div id="team-choice-box" style="display:none;">
+      <p>Choose your team:</p>
+      <button class="team-btn" id="team-a-btn">Team A (Blue)</button>
+      <button class="team-btn" id="team-b-btn">Team B (Green)</button>
+    </div>
+    <button id="start-game-btn" style="display:none;">Start Game</button>
+    <p id="waiting-status" class="status-text"></p>
+  </div>
+</div>
+
+<div id="game-screen" class="screen" style="display:none;">
+  <div class="game-layout">
+    <div class="board-area">
+      <div id="turn-banner" class="turn-banner"></div>
+      <div id="board" class="board"></div>
+      <div id="hand-area" class="hand-area">
+        <div id="hand" class="hand"></div>
+        <button id="dead-card-btn" style="display:none;">Turn in Dead Card</button>
+      </div>
+    </div>
+    <div class="side-panel">
+      <div id="scoreboard" class="panel-box"></div>
+      <div id="players-panel" class="panel-box"></div>
+      <div id="log-panel" class="panel-box log-panel"></div>
+    </div>
+  </div>
+</div>
+
+<div id="winner-overlay" class="overlay" style="display:none;">
+  <div class="winner-box">
+    <h1 id="winner-text"></h1>
+    <button onclick="location.reload()">Play Again</button>
+  </div>
+</div>
+
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script src="{{ url_for('static', filename='game.js') }}"></script>
+</body>
+</html>
