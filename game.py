@@ -35,26 +35,27 @@ def build_full_deck():
     return deck
 
 
+# The official printed Sequence board layout (10x10, corners are FREE).
+OFFICIAL_BOARD_LAYOUT = [
+    ["FREE", "AC", "KC", "QC", "10C", "9C", "8C", "7C", "6C", "FREE"],
+    ["AD", "7S", "8S", "9S", "10S", "QS", "KS", "AS", "5C", "2S"],
+    ["KD", "6S", "10C", "9C", "8C", "7C", "6C", "2D", "4C", "3S"],
+    ["QD", "5S", "QC", "8H", "7H", "6H", "5C", "3D", "3C", "4S"],
+    ["10D", "4S", "KC", "9H", "2H", "5H", "4C", "4D", "2C", "5S"],
+    ["9D", "3S", "AC", "10H", "3H", "4H", "3C", "5D", "AH", "6S"],
+    ["8D", "2S", "AD", "QH", "KH", "AH", "2C", "6D", "KH", "7S"],
+    ["7D", "2H", "KD", "QD", "10D", "9D", "8D", "7D", "QH", "8S"],
+    ["6D", "3H", "4H", "5H", "6H", "7H", "8H", "9H", "10H", "9S"],
+    ["FREE", "5D", "4D", "3D", "2D", "AS", "KS", "QS", "10S", "FREE"],
+]
+
+
 def build_board_layout():
     """
-    Deterministic 10x10 board layout. Corners are FREE spaces.
-    The remaining 96 cells hold each of the 48 non-jack cards exactly twice.
+    Returns the official 10x10 Sequence board layout. Corners are FREE spaces;
+    the remaining 96 cells hold each of the 48 non-jack cards exactly twice.
     """
-    board_cards = [r + s for r in NON_JACK_RANKS for s in SUITS]  # 48 unique
-    cells = board_cards * 2  # 96
-    rnd = random.Random(20240601)  # fixed seed -> same board layout every game
-    rnd.shuffle(cells)
-
-    layout = [[None] * BOARD_SIZE for _ in range(BOARD_SIZE)]
-    idx = 0
-    for r in range(BOARD_SIZE):
-        for c in range(BOARD_SIZE):
-            if (r, c) in CORNERS:
-                layout[r][c] = 'FREE'
-            else:
-                layout[r][c] = cells[idx]
-                idx += 1
-    return layout
+    return [row[:] for row in OFFICIAL_BOARD_LAYOUT]
 
 
 BOARD_LAYOUT = build_board_layout()
