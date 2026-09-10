@@ -213,7 +213,17 @@ function renderHand() {
     const isRed = cardObj.code.endsWith('D') || cardObj.code.endsWith('H');
     div.className = 'playing-card' + (isRed ? ' red-suit' : '') + (cardObj.dead ? ' dead' : '') +
       (idx === selectedCardIndex ? ' selected' : '');
+
+    const kind = cardKind(cardObj.code);
     div.textContent = cardObj.label;
+
+    if (kind === 'two-eyed' || kind === 'one-eyed') {
+      const tag = document.createElement('div');
+      tag.className = 'jack-tag ' + (kind === 'two-eyed' ? 'jack-tag-wild' : 'jack-tag-remove');
+      tag.textContent = kind === 'two-eyed' ? 'WILD' : 'REMOVE';
+      div.appendChild(tag);
+    }
+
     div.addEventListener('click', () => {
       selectedCardIndex = (selectedCardIndex === idx) ? null : idx;
       renderHand();
